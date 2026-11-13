@@ -2,103 +2,84 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Fire 2.0 Classic</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Fire 2.0 Classic 2019</title>
 
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- background:#10151d;
- color:white;
+ margin:0;background:#101720;color:white;
  font-family:Arial,sans-serif;
 }
 header{
- background:#171f2b;
- padding:15px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- border-bottom:2px solid #ff9d00;
+ background:#192431;padding:15px;
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;
+ border-bottom:3px solid #ff9800;
 }
-.logo{font-size:23px;font-weight:bold;color:#ff9d00}
-.currency{color:#ffd43b;font-weight:bold}
+.logo{color:#ff9800;font-size:23px;font-weight:bold}
+.money{color:#ffd34d;font-weight:bold}
 nav{
- display:flex;
- gap:5px;
- flex-wrap:wrap;
- justify-content:center;
- background:#202b38;
- padding:10px;
+ display:flex;flex-wrap:wrap;gap:5px;
+ justify-content:center;background:#263443;padding:10px;
 }
 button{
- cursor:pointer;
- border:0;
- border-radius:5px;
- padding:11px;
- font-weight:bold;
+ border:0;border-radius:6px;padding:11px;
+ font-weight:bold;cursor:pointer;
 }
-nav button{background:#344354;color:white}
-nav button:hover{background:#ff9d00;color:black}
-.page{display:none;padding:20px;max-width:1100px;margin:auto}
+nav button{background:#405368;color:white}
+button:active{transform:scale(.96)}
+.primary{background:#ff9800;color:#111}
+.dark{background:#405368;color:white}
+.page{display:none;padding:18px;max-width:1100px;margin:auto}
 .page.active{display:block}
 .card{
- background:#202b38;
- padding:18px;
- border-radius:10px;
- margin:12px 0;
- border:1px solid #38495b;
+ background:#202e3c;padding:17px;
+ margin:12px 0;border-radius:10px;
+ border:1px solid #405368;
 }
-h1,h2{color:#ffad22}
-.primary{background:#ff9d00;color:#111}
-.secondary{background:#344354;color:white}
+h1,h2{color:#ffad32}
 .grid{
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
  gap:12px;
 }
 .item{
- background:#263646;
- padding:15px;
- border-radius:8px;
- text-align:center;
+ background:#293b4c;padding:14px;
+ border-radius:9px;text-align:center;
 }
-.item button{width:100%;margin-top:10px}
-.character{
- font-size:65px;
- margin:10px;
-}
+.item button{width:100%;margin-top:8px}
+.character{font-size:60px}
+.small{font-size:12px;color:#b7c4d0}
+.center{text-align:center}
 #gameCanvas{
- display:block;
- width:100%;
- max-width:900px;
- margin:auto;
- background:#647d48;
- border:3px solid #ff9d00;
- border-radius:8px;
- touch-action:none;
+ width:100%;height:auto;display:block;
+ background:#627e48;border:3px solid #ff9800;
+ border-radius:8px;touch-action:none;
 }
-#gameInfo{
- display:flex;
- justify-content:space-around;
- flex-wrap:wrap;
- padding:12px;
- background:#202b38;
-}
-#message{
- text-align:center;
- color:#ffd43b;
- min-height:25px;
+.stats{
+ display:flex;justify-content:space-around;
+ flex-wrap:wrap;background:#263443;
+ padding:12px;gap:10px;
 }
 .controls{
- display:flex;
- justify-content:center;
- gap:15px;
- margin-top:12px;
- flex-wrap:wrap;
+ display:grid;grid-template-columns:repeat(3,65px);
+ justify-content:center;gap:7px;margin:15px;
 }
-.controls button{background:#ff9d00;padding:15px 25px}
-.small{color:#aebdca;font-size:13px}
+.controls button{
+ background:#ff9800;font-size:22px;
+ height:55px;
+}
+#gameMessage{text-align:center;color:#ffcf50}
+input,select{
+ padding:10px;border-radius:5px;
+ max-width:100%;
+}
+.bar{
+ background:#444;height:10px;border-radius:10px;
+ overflow:hidden;
+}
+.bar div{background:#39d353;height:100%}
 </style>
 </head>
 
@@ -106,47 +87,46 @@ h1,h2{color:#ffad22}
 
 <header>
  <div class="logo">🔥 FREE FIRE 2.0</div>
- <div class="currency">
+ <div class="money">
  💎 <span id="diamonds">1000</span>
  &nbsp; 🪙 <span id="coins">5000</span>
  </div>
 </header>
 
 <nav>
- <button onclick="showPage('lobby')">LOBBY</button>
- <button onclick="showPage('characters')">PERSONAGENS</button>
- <button onclick="showPage('store')">LOJA</button>
- <button onclick="showPage('inventory')">COFRE</button>
- <button onclick="showPage('missions')">MISSÕES</button>
- <button onclick="showPage('profile')">PERFIL</button>
- <button onclick="showPage('settings')">CONFIGURAÇÕES</button>
+ <button onclick="page('lobby')">LOBBY</button>
+ <button onclick="page('characters')">PERSONAGENS</button>
+ <button onclick="page('store')">LOJA</button>
+ <button onclick="page('inventory')">COFRE</button>
+ <button onclick="page('missions')">MISSÕES</button>
+ <button onclick="page('profile')">PERFIL</button>
+ <button onclick="page('settings')">AJUSTES</button>
 </nav>
 
 <!-- LOBBY -->
 
 <section id="lobby" class="page active">
- <div class="card" style="text-align:center">
+ <div class="card center">
   <h1>FREE FIRE 2.0</h1>
-  <h2>CLASSIC EDITION 2019</h2>
-  <div class="character" id="lobbyCharacter">🧑</div>
-  <h2 id="characterName">Adam</h2>
-  <p>Prepare-se para sobreviver!</p>
-  <button class="primary" onclick="startGame()">🔥 COMEÇAR PARTIDA</button>
+  <h2>CLASSIC 2019</h2>
+  <div class="character" id="lobbyEmoji">🧑</div>
+  <h2 id="lobbyName">Adam</h2>
+  <p>Prepare-se para entrar na batalha!</p>
+  <button class="primary" onclick="startGame()">🔥 JOGAR AGORA</button>
  </div>
 
  <div class="grid">
   <div class="card">
-   <h3>🏆 Modo de jogo</h3>
+   <h3>🏆 MODO</h3>
    <p>Battle Royale</p>
-   <p>Sobreviva até ser o último!</p>
   </div>
   <div class="card">
-   <h3>🎯 Objetivo</h3>
-   <p>Elimine os adversários e sobreviva.</p>
+   <h3>🎯 OBJETIVO</h3>
+   <p>Elimine os inimigos e sobreviva.</p>
   </div>
   <div class="card">
-   <h3>🎁 Recompensa</h3>
-   <p>Ganhe moedas ao vencer partidas.</p>
+   <h3>🎁 RECOMPENSAS</h3>
+   <p>Ganhe moedas e experiência.</p>
   </div>
  </div>
 </section>
@@ -155,7 +135,6 @@ h1,h2{color:#ffad22}
 
 <section id="characters" class="page">
  <h1>PERSONAGENS</h1>
- <p>Escolha seu personagem.</p>
  <div class="grid" id="characterList"></div>
 </section>
 
@@ -165,31 +144,15 @@ h1,h2{color:#ffad22}
  <h1>LOJA</h1>
 
  <div class="card">
-  <h2>💎 Comprar diamantes</h2>
-  <p class="small">Diamantes de demonstração. Não são compras reais.</p>
-  <div class="grid">
-   <div class="item">
-    <h2>💎 100</h2>
-    <p>Grátis</p>
-    <button class="primary" onclick="buyDiamonds(100)">Resgatar</button>
-   </div>
-   <div class="item">
-    <h2>💎 500</h2>
-    <p>Grátis</p>
-    <button class="primary" onclick="buyDiamonds(500)">Resgatar</button>
-   </div>
-   <div class="item">
-    <h2>💎 1000</h2>
-    <p>Grátis</p>
-    <button class="primary" onclick="buyDiamonds(1000)">Resgatar</button>
-   </div>
-  </div>
+  <h2>💎 DIAMANTES</h2>
+  <p class="small">Moeda de demonstração do jogo.</p>
+  <div class="grid" id="diamondList"></div>
  </div>
 
- <h2>🎭 Skins e roupas</h2>
+ <h2>👕 ROUPAS E SKINS</h2>
  <div class="grid" id="skinList"></div>
 
- <h2>🔫 Armas</h2>
+ <h2>🔫 ARMAS</h2>
  <div class="grid" id="weaponList"></div>
 </section>
 
@@ -198,16 +161,14 @@ h1,h2{color:#ffad22}
 <section id="inventory" class="page">
  <h1>MEU COFRE</h1>
  <div class="card">
-  <h2>Personagem equipado</h2>
-  <div id="equippedCharacter">Adam</div>
+  <h2>Personagem</h2>
+  <p id="invCharacter"></p>
+  <h2>Arma equipada</h2>
+  <p id="invWeapon"></p>
  </div>
  <div class="card">
-  <h2>🎒 Itens adquiridos</h2>
-  <div id="inventoryItems">Nenhum item comprado.</div>
- </div>
- <div class="card">
-  <h2>🔫 Arma equipada</h2>
-  <div id="equippedWeapon">MP40</div>
+  <h2>Itens adquiridos</h2>
+  <div id="invItems"></div>
  </div>
 </section>
 
@@ -215,165 +176,208 @@ h1,h2{color:#ffad22}
 
 <section id="missions" class="page">
  <h1>MISSÕES</h1>
+
  <div class="card">
-  <h3>🎯 Elimine 3 inimigos</h3>
-  <p id="missionKills">Progresso: 0/3</p>
-  <button class="primary" onclick="claimMission(0)">Resgatar recompensa</button>
+  <h3>☠️ Elimine 3 inimigos</h3>
+  <p id="mission1"></p>
+  <div class="bar"><div id="bar1"></div></div>
+  <button class="primary" onclick="claim(0)">RESGATAR</button>
  </div>
+
  <div class="card">
-  <h3>🏆 Jogue uma partida</h3>
-  <p id="missionGames">Progresso: 0/1</p>
-  <button class="primary" onclick="claimMission(1)">Resgatar recompensa</button>
+  <h3>🎮 Jogue uma partida</h3>
+  <p id="mission2"></p>
+  <div class="bar"><div id="bar2"></div></div>
+  <button class="primary" onclick="claim(1)">RESGATAR</button>
+ </div>
+
+ <div class="card">
+  <h3>🏆 Consiga uma vitória</h3>
+  <p id="mission3"></p>
+  <div class="bar"><div id="bar3"></div></div>
+  <button class="primary" onclick="claim(2)">RESGATAR</button>
  </div>
 </section>
 
 <!-- PERFIL -->
 
 <section id="profile" class="page">
- <h1>PERFIL DO JOGADOR</h1>
- <div class="card">
+ <h1>PERFIL</h1>
+ <div class="card center">
   <div class="character">👤</div>
   <h2 id="profileName">Jogador</h2>
   <p>Nível: <span id="level">1</span></p>
-  <p>Experiência: <span id="xp">0</span></p>
+  <p>XP: <span id="xp">0</span></p>
   <p>Partidas: <span id="games">0</span></p>
   <p>Eliminações: <span id="kills">0</span></p>
   <p>Vitórias: <span id="wins">0</span></p>
-  <button class="secondary" onclick="changeName()">Alterar nome</button>
+  <button class="dark" onclick="changeName()">ALTERAR NOME</button>
  </div>
 </section>
 
-<!-- CONFIGURAÇÕES -->
+<!-- AJUSTES -->
 
 <section id="settings" class="page">
  <h1>CONFIGURAÇÕES</h1>
+
  <div class="card">
-  <h3>Áudio</h3>
-  <label>Volume</label>
+  <h3>🔊 Volume</h3>
   <input type="range" min="0" max="100" value="70">
  </div>
+
  <div class="card">
-  <h3>Gráficos</h3>
+  <h3>🎮 Gráficos</h3>
   <select>
    <option>Baixo</option>
    <option selected>Médio</option>
    <option>Alto</option>
   </select>
  </div>
+
  <div class="card">
   <h3>Controles</h3>
-  <p>WASD ou setas para movimentar.</p>
-  <p>Mouse para mirar e atirar.</p>
+  <p>WASD ou setas: movimentar.</p>
+  <p>Espaço: atirar.</p>
+  <p>Botão de tiro: atirar no inimigo mais próximo.</p>
  </div>
 </section>
 
-<!-- PARTIDA -->
+<!-- JOGO -->
 
 <section id="game" class="page">
  <h1>🔥 BATTLE ROYALE</h1>
- <div id="gameInfo">
-  <span>❤️ Vida: <b id="health">100</b></span>
-  <span>🔫 Munição: <b id="ammo">30</b></span>
-  <span>☠️ Eliminações: <b id="gameKills">0</b></span>
-  <span>👥 Inimigos: <b id="enemyCount">10</b></span>
+
+ <div class="stats">
+  <span>❤️ <b id="health">100</b></span>
+  <span>🔫 <b id="ammo">30</b></span>
+  <span>☠️ <b id="gameKills">0</b></span>
+  <span>👥 <b id="enemyCount">8</b></span>
  </div>
 
  <canvas id="gameCanvas" width="900" height="550"></canvas>
 
  <div class="controls">
-  <button onclick="moveMobile(0,-1)">⬆️</button>
-  <button onclick="moveMobile(-1,0)">⬅️</button>
-  <button onclick="moveMobile(1,0)">➡️</button>
-  <button onclick="moveMobile(0,1)">⬇️</button>
-  <button onclick="shoot()">🔫 ATIRAR</button>
+  <span></span>
+  <button onpointerdown="holdMove(0,-1)" onpointerup="stopMove()" onpointerleave="stopMove()">⬆️</button>
+  <span></span>
+  <button onpointerdown="holdMove(-1,0)" onpointerup="stopMove()" onpointerleave="stopMove()">⬅️</button>
+  <button onclick="reload()">🔄</button>
+  <button onpointerdown="holdMove(1,0)" onpointerup="stopMove()" onpointerleave="stopMove()">➡️</button>
+  <span></span>
+  <button onpointerdown="holdMove(0,1)" onpointerup="stopMove()" onpointerleave="stopMove()">⬇️</button>
+  <span></span>
  </div>
 
- <p id="message">Sobreviva e elimine os adversários!</p>
- <div style="text-align:center">
-  <button class="secondary" onclick="leaveGame()">SAIR DA PARTIDA</button>
+ <div class="center">
+  <button class="primary" onclick="shoot()">🔫 ATIRAR</button>
+  <button class="dark" onclick="reload()">RECARREGAR</button>
+  <button class="dark" onclick="leaveGame()">SAIR</button>
  </div>
+
+ <p id="gameMessage">Elimine todos os inimigos!</p>
 </section>
 
 <script>
-// DADOS DO JOGADOR
 
-let data=JSON.parse(localStorage.getItem("ff2data")||"null")||{
+// =================================
+// SALVAMENTO
+// =================================
+
+const defaultData={
  diamonds:1000,
  coins:5000,
  name:"Jogador",
  character:"Adam",
  weapon:"MP40",
  inventory:[],
+ skins:[],
  kills:0,
  games:0,
  wins:0,
  xp:0,
  claimed:[],
- redeemed:[],
- skins:[]
+ redeemed:[]
 };
 
-function save(){
- localStorage.setItem("ff2data",JSON.stringify(data));
- updateUI();
+let data;
+
+try{
+ data=JSON.parse(localStorage.getItem("ff2save"))||defaultData;
+}catch(e){
+ data=defaultData;
 }
 
-function showPage(id){
+data={...defaultData,...data};
+
+function save(){
+ localStorage.setItem("ff2save",JSON.stringify(data));
+ update();
+}
+
+function page(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
  document.getElementById(id).classList.add("active");
- updateUI();
+ update();
 }
 
-function updateUI(){
+function update(){
  document.getElementById("diamonds").textContent=data.diamonds;
  document.getElementById("coins").textContent=data.coins;
+
+ document.getElementById("lobbyName").textContent=data.character;
+ document.getElementById("lobbyEmoji").textContent=
+ characters.find(c=>c.name===data.character)?.emoji||"🧑";
+
  document.getElementById("profileName").textContent=data.name;
  document.getElementById("level").textContent=Math.floor(data.xp/100)+1;
  document.getElementById("xp").textContent=data.xp;
  document.getElementById("games").textContent=data.games;
  document.getElementById("kills").textContent=data.kills;
  document.getElementById("wins").textContent=data.wins;
- document.getElementById("characterName").textContent=data.character;
- document.getElementById("lobbyCharacter").textContent=
- characters.find(c=>c.name===data.character)?.emoji||"🧑";
- document.getElementById("equippedCharacter").textContent=data.character;
- document.getElementById("equippedWeapon").textContent=data.weapon;
- document.getElementById("inventoryItems").textContent=
- data.inventory.join(", ")||"Nenhum item comprado.";
- document.getElementById("missionKills").textContent=
- "Progresso: "+Math.min(data.kills,3)+"/3";
- document.getElementById("missionGames").textContent=
- "Progresso: "+Math.min(data.games,1)+"/1";
+
+ document.getElementById("invCharacter").textContent=data.character;
+ document.getElementById("invWeapon").textContent=data.weapon;
+ document.getElementById("invItems").textContent=
+ data.inventory.join(", ")||"Nenhum item adquirido.";
+
+ missionUI();
 }
 
 function changeName(){
- let n=prompt("Digite seu nome:");
- if(n&&n.trim()){data.name=n.trim().slice(0,20);save();}
+ let name=prompt("Digite seu nome:");
+ if(name&&name.trim()){
+  data.name=name.trim().slice(0,20);
+  save();
+ }
 }
 
+// =================================
 // PERSONAGENS
+// =================================
 
 const characters=[
  {name:"Adam",emoji:"🧑",price:0},
  {name:"Eve",emoji:"👩",price:200},
- {name:"Maxim",emoji:"🧔",price:300},
- {name:"Kelly",emoji:"🏃‍♀️",price:500},
- {name:"Andrew",emoji:"👮",price:500},
- {name:"Moco",emoji:"👩‍💻",price:700}
+ {name:"Kelly",emoji:"🏃‍♀️",price:300},
+ {name:"Andrew",emoji:"👮",price:350},
+ {name:"Maxim",emoji:"🧔",price:400},
+ {name:"Moco",emoji:"👩‍💻",price:500}
 ];
 
 function renderCharacters(){
- let el=document.getElementById("characterList");
+ const el=document.getElementById("characterList");
  el.innerHTML="";
+
  characters.forEach(c=>{
   let owned=c.price===0||data.inventory.includes(c.name);
+
   el.innerHTML+=`
   <div class="item">
    <div class="character">${c.emoji}</div>
    <h3>${c.name}</h3>
    <p>${c.price===0?"Grátis":c.price+" 💎"}</p>
    <button class="primary" onclick="selectCharacter('${c.name}')">
-   ${data.character===c.name?"Selecionado":owned?"Selecionar":"Comprar"}
+   ${data.character===c.name?"EQUIPADO":owned?"EQUIPAR":"COMPRAR"}
    </button>
   </div>`;
  });
@@ -382,257 +386,301 @@ function renderCharacters(){
 function selectCharacter(name){
  let c=characters.find(x=>x.name===name);
  if(!c)return;
+
  if(c.price>0&&!data.inventory.includes(name)){
-  if(data.diamonds<c.price){alert("Diamantes insuficientes!");return;}
+  if(data.diamonds<c.price){
+   alert("Diamantes insuficientes!");
+   return;
+  }
   data.diamonds-=c.price;
   data.inventory.push(name);
  }
+
  data.character=name;
  save();
  renderCharacters();
 }
 
+// =================================
 // DIAMANTES
+// =================================
 
-function buyDiamonds(amount){
- data.diamonds+=amount;
- save();
- alert("Você recebeu "+amount+" diamantes!");
+function renderDiamonds(){
+ let packs=[
+  {amount:100},
+  {amount:500},
+  {amount:1000},
+  {amount:2500}
+ ];
+
+ document.getElementById("diamondList").innerHTML=packs.map(p=>`
+ <div class="item">
+  <h2>💎 ${p.amount}</h2>
+  <p>Pacote de demonstração</p>
+  <button class="primary" onclick="getDiamonds(${p.amount})">RESGATAR</button>
+ </div>
+ `).join("");
 }
 
-// LOJA DE SKINS
+function getDiamonds(amount){
+ if(data.redeemed.includes(amount)){
+  alert("Esse pacote já foi resgatado!");
+  return;
+ }
+
+ data.diamonds+=amount;
+ data.redeemed.push(amount);
+ save();
+ alert("Diamantes adicionados!");
+}
+
+// =================================
+// SKINS
+// =================================
 
 const skins=[
  {name:"Uniforme clássico",emoji:"👕",price:100},
  {name:"Roupa urbana",emoji:"🧥",price:200},
  {name:"Conjunto militar",emoji:"🥷",price:350},
- {name:"Roupa lendária",emoji:"👑",price:500}
+ {name:"Conjunto lendário",emoji:"👑",price:500}
 ];
 
 function renderSkins(){
- let el=document.getElementById("skinList");
- el.innerHTML="";
- skins.forEach(s=>{
+ document.getElementById("skinList").innerHTML=skins.map(s=>{
  let owned=data.skins.includes(s.name);
- el.innerHTML+=`
+
+ return `
  <div class="item">
- <div class="character">${s.emoji}</div>
- <h3>${s.name}</h3>
- <p>${s.price} 💎</p>
- <button class="primary" onclick="buySkin('${s.name}')">
- ${owned?"Adquirida":"Comprar"}
- </button>
+  <div class="character">${s.emoji}</div>
+  <h3>${s.name}</h3>
+  <p>${s.price} 💎</p>
+  <button class="primary" onclick="buySkin('${s.name}')">
+  ${owned?"ADQUIRIDA":"COMPRAR"}
+  </button>
  </div>`;
- });
+ }).join("");
 }
 
 function buySkin(name){
  let s=skins.find(x=>x.name===name);
  if(!s||data.skins.includes(name))return;
- if(data.diamonds<s.price){alert("Diamantes insuficientes!");return;}
+
+ if(data.diamonds<s.price){
+  alert("Diamantes insuficientes!");
+  return;
+ }
+
  data.diamonds-=s.price;
  data.skins.push(name);
  data.inventory.push(name);
  save();
  renderSkins();
- alert("Skin adquirida!");
+ alert("Skin comprada!");
 }
 
+// =================================
 // ARMAS
+// =================================
 
 const weapons=[
  {name:"MP40",price:0,emoji:"🔫"},
  {name:"AK47",price:200,emoji:"🔫"},
  {name:"M4A1",price:250,emoji:"🔫"},
  {name:"AWM",price:400,emoji:"🎯"},
- {name:"M1014",price:300,emoji:"🔫"}
+ {name:"M1014",price:300,emoji:"🔫"},
+ {name:"UMP",price:150,emoji:"🔫"}
 ];
 
 function renderWeapons(){
- let el=document.getElementById("weaponList");
- el.innerHTML="";
- weapons.forEach(w=>{
+ document.getElementById("weaponList").innerHTML=weapons.map(w=>{
  let owned=w.price===0||data.inventory.includes(w.name);
- el.innerHTML+=`
+
+ return `
  <div class="item">
- <div class="character">${w.emoji}</div>
- <h3>${w.name}</h3>
- <p>${w.price===0?"Grátis":w.price+" 💎"}</p>
- <button class="primary" onclick="buyWeapon('${w.name}')">
- ${data.weapon===w.name?"Equipado":owned?"Equipar":"Comprar"}
- </button>
+  <div class="character">${w.emoji}</div>
+  <h3>${w.name}</h3>
+  <p>${w.price===0?"Grátis":w.price+" 💎"}</p>
+  <button class="primary" onclick="buyWeapon('${w.name}')">
+  ${data.weapon===w.name?"EQUIPADA":owned?"EQUIPAR":"COMPRAR"}
+  </button>
  </div>`;
- });
+ }).join("");
 }
 
 function buyWeapon(name){
  let w=weapons.find(x=>x.name===name);
  if(!w)return;
+
  if(!data.inventory.includes(name)){
-  if(data.diamonds<w.price){alert("Diamantes insuficientes!");return;}
+  if(data.diamonds<w.price){
+   alert("Diamantes insuficientes!");
+   return;
+  }
   data.diamonds-=w.price;
   data.inventory.push(name);
  }
+
  data.weapon=name;
  save();
  renderWeapons();
 }
 
+// =================================
 // MISSÕES
+// =================================
 
-function claimMission(id){
- if(data.claimed.includes(id)){alert("Recompensa já recebida!");return;}
- if((id===0&&data.kills<3)||(id===1&&data.games<1)){
+function missionUI(){
+ const progress=[
+  Math.min(data.kills,3),
+  Math.min(data.games,1),
+  Math.min(data.wins,1)
+ ];
+
+ const goals=[3,1,1];
+
+ for(let i=0;i<3;i++){
+  document.getElementById("mission"+(i+1)).textContent=
+  "Progresso: "+progress[i]+"/"+goals[i];
+
+  document.getElementById("bar"+(i+1)).style.width=
+  (progress[i]/goals[i]*100)+"%";
+ }
+}
+
+function claim(id){
+ if(data.claimed.includes(id)){
+  alert("Recompensa já recebida!");
+  return;
+ }
+
+ let complete=[
+  data.kills>=3,
+  data.games>=1,
+  data.wins>=1
+ ];
+
+ if(!complete[id]){
   alert("Missão ainda não concluída!");
   return;
  }
+
  data.claimed.push(id);
  data.coins+=500;
  data.xp+=100;
  save();
- alert("Você recebeu 500 moedas e 100 XP!");
+ alert("Você ganhou 500 moedas e 100 XP!");
 }
 
-// JOGO
+// =================================
+// MOTOR DA PARTIDA
+// =================================
 
 const canvas=document.getElementById("gameCanvas");
 const ctx=canvas.getContext("2d");
 
-let player={x:450,y:275,hp:100,ammo:30};
+let player;
 let enemies=[];
 let bullets=[];
 let running=false;
 let kills=0;
+let gameTimer=null;
+let zone=260;
 let keys={};
+let movement={x:0,y:0};
 let lastShot=0;
-let zone=250;
-let gameTimer;
+let lastDamage=0;
+let ammo=30;
+let reloading=false;
 
 function startGame(){
- showPage("game");
- player={x:450,y:275,hp:100,ammo:30};
+ if(gameTimer)clearInterval(gameTimer);
+
+ page("game");
+
+ player={x:450,y:275,hp:100};
+
  enemies=[];
  bullets=[];
  kills=0;
- zone=250;
+ zone=260;
+ ammo=30;
+ reloading=false;
+ lastDamage=0;
 
- for(let i=0;i<10;i++){
+ for(let i=0;i<8;i++){
+  let x,y;
+
+  do{
+   x=40+Math.random()*820;
+   y=40+Math.random()*470;
+  }while(Math.hypot(x-450,y-275)<120);
+
   enemies.push({
-   x:60+Math.random()*780,
-   y:60+Math.random()*430,
-   hp:100,
-   speed:0.45+Math.random()*0.5
+   x,y,hp:100,speed:0.6+Math.random()*0.4,
+   lastAttack:0
   });
  }
 
  running=true;
- document.getElementById("message").textContent="A partida começou!";
- clearInterval(gameTimer);
+
+ document.getElementById("gameMessage").textContent=
+ "Elimine os inimigos e sobreviva!";
+
  gameTimer=setInterval(updateGame,30);
  drawGame();
-}
-
-function drawGame(){
- if(!running)return;
-
- ctx.clearRect(0,0,900,550);
-
- // MAPA
- ctx.fillStyle="#637d49";
- ctx.fillRect(0,0,900,550);
-
- // CAMINHOS
- ctx.fillStyle="#9b906a";
- ctx.fillRect(0,120,900,45);
- ctx.fillRect(250,0,50,550);
-
- // ÁRVORES
- for(let i=0;i<20;i++){
-  let x=(i*137+50)%900;
-  let y=(i*83+40)%550;
-  ctx.fillStyle="#25472b";
-  ctx.beginPath();
-  ctx.arc(x,y,14,0,Math.PI*2);
-  ctx.fill();
- }
-
- // ZONA SEGURA
- ctx.strokeStyle="#52c8ff";
- ctx.lineWidth=4;
- ctx.beginPath();
- ctx.arc(450,275,zone,0,Math.PI*2);
- ctx.stroke();
-
- // INIMIGOS
- enemies.forEach(e=>{
-  ctx.fillStyle="#d63232";
-  ctx.fillRect(e.x-10,e.y-10,20,20);
-  ctx.fillStyle="white";
-  ctx.font="11px Arial";
-  ctx.fillText("INIMIGO",e.x-20,e.y-16);
- });
-
- // TIROS
- ctx.fillStyle="#ffed72";
- bullets.forEach(b=>{
-  ctx.beginPath();
-  ctx.arc(b.x,b.y,4,0,Math.PI*2);
-  ctx.fill();
- });
-
- // JOGADOR
- ctx.fillStyle="#2c9cff";
- ctx.beginPath();
- ctx.arc(player.x,player.y,13,0,Math.PI*2);
- ctx.fill();
-
- ctx.fillStyle="white";
- ctx.font="14px Arial";
- ctx.fillText("VOCÊ",player.x-17,player.y-20);
-
- document.getElementById("health").textContent=player.hp;
- document.getElementById("ammo").textContent=player.ammo;
- document.getElementById("gameKills").textContent=kills;
- document.getElementById("enemyCount").textContent=enemies.length;
 }
 
 function updateGame(){
  if(!running)return;
 
- let speed=4;
+ let speed=3.8;
 
- if(keys["w"]||keys["ArrowUp"])player.y-=speed;
- if(keys["s"]||keys["ArrowDown"])player.y+=speed;
- if(keys["a"]||keys["ArrowLeft"])player.x-=speed;
- if(keys["d"]||keys["ArrowRight"])player.x+=speed;
+ let mx=0,my=0;
+
+ if(keys["w"]||keys["arrowup"])my--;
+ if(keys["s"]||keys["arrowdown"])my++;
+ if(keys["a"]||keys["arrowleft"])mx--;
+ if(keys["d"]||keys["arrowright"])mx++;
+
+ mx+=movement.x;
+ my+=movement.y;
+
+ if(mx||my){
+  let len=Math.hypot(mx,my);
+  player.x+=mx/len*speed;
+  player.y+=my/len*speed;
+ }
 
  player.x=Math.max(15,Math.min(885,player.x));
  player.y=Math.max(15,Math.min(535,player.y));
 
- // IA DOS INIMIGOS
+ let now=Date.now();
+
  enemies.forEach(e=>{
   let dx=player.x-e.x;
   let dy=player.y-e.y;
   let dist=Math.hypot(dx,dy);
 
-  if(dist>20){
-   e.x+=(dx/dist)*e.speed;
-   e.y+=(dy/dist)*e.speed;
+  if(dist>22){
+   e.x+=dx/dist*e.speed;
+   e.y+=dy/dist*e.speed;
   }
 
-  if(dist<23&&Math.random()<0.025){
-   player.hp-=5;
+  if(dist<30&&now-e.lastAttack>900){
+   player.hp-=6;
+   e.lastAttack=now;
   }
  });
 
- // PROJÉTEIS
  bullets.forEach(b=>{
   b.x+=b.vx;
   b.y+=b.vy;
+
   enemies.forEach(e=>{
-   if(Math.hypot(b.x-e.x,b.y-e.y)<18&&e.hp>0){
-    e.hp-=50;
+   if(e.hp>0&&Math.hypot(b.x-e.x,b.y-e.y)<19){
+    e.hp-=b.damage;
     b.dead=true;
+
     if(e.hp<=0){
      kills++;
      data.kills++;
@@ -643,16 +691,18 @@ function updateGame(){
  });
 
  bullets=bullets.filter(b=>
-  !b.dead&&b.x>=0&&b.x<=900&&b.y>=0&&b.y<=550
+  !b.dead&&b.x>0&&b.x<900&&b.y>0&&b.y<550
  );
 
  enemies=enemies.filter(e=>e.hp>0);
 
- // ZONA DIMINUINDO
- if(zone>80)zone-=0.015;
+ if(zone>80)zone-=0.018;
 
  if(Math.hypot(player.x-450,player.y-275)>zone){
-  player.hp-=0.15;
+  if(now-lastDamage>500){
+   player.hp-=3;
+   lastDamage=now;
+  }
  }
 
  if(player.hp<=0){
@@ -668,15 +718,105 @@ function updateGame(){
  drawGame();
 }
 
+function drawGame(){
+ if(!player)return;
+
+ ctx.clearRect(0,0,900,550);
+
+ // TERRENO
+ ctx.fillStyle="#718a50";
+ ctx.fillRect(0,0,900,550);
+
+ // CAMINHOS
+ ctx.fillStyle="#b3a17b";
+ ctx.fillRect(0,120,900,45);
+ ctx.fillRect(250,0,50,550);
+ ctx.fillRect(650,0,35,550);
+
+ // ÁRVORES
+ for(let i=0;i<24;i++){
+  let x=(i*137+40)%900;
+  let y=(i*83+35)%550;
+
+  ctx.fillStyle="#294b2c";
+  ctx.beginPath();
+  ctx.arc(x,y,16,0,Math.PI*2);
+  ctx.fill();
+ }
+
+ // CASAS
+ ctx.fillStyle="#9b6541";
+ ctx.fillRect(90,200,75,65);
+ ctx.fillRect(710,320,90,75);
+ ctx.fillStyle="#49382d";
+ ctx.fillRect(105,215,20,25);
+ ctx.fillRect(730,335,25,25);
+
+ // ZONA
+ ctx.strokeStyle="#45c9ff";
+ ctx.lineWidth=4;
+ ctx.beginPath();
+ ctx.arc(450,275,zone,0,Math.PI*2);
+ ctx.stroke();
+
+ // TIROS
+ bullets.forEach(b=>{
+  ctx.fillStyle="#ffed67";
+  ctx.beginPath();
+  ctx.arc(b.x,b.y,5,0,Math.PI*2);
+  ctx.fill();
+ });
+
+ // INIMIGOS
+ enemies.forEach(e=>{
+  ctx.fillStyle="#c82d2d";
+  ctx.fillRect(e.x-10,e.y-10,20,20);
+
+  ctx.fillStyle="black";
+  ctx.fillRect(e.x-13,e.y-20,26,4);
+
+  ctx.fillStyle="#44ed55";
+  ctx.fillRect(e.x-13,e.y-20,26*(e.hp/100),4);
+ });
+
+ // JOGADOR
+ ctx.fillStyle="#258cff";
+ ctx.beginPath();
+ ctx.arc(player.x,player.y,13,0,Math.PI*2);
+ ctx.fill();
+
+ ctx.strokeStyle="white";
+ ctx.lineWidth=2;
+ ctx.stroke();
+
+ document.getElementById("health").textContent=
+ Math.max(0,Math.ceil(player.hp));
+
+ document.getElementById("ammo").textContent=ammo;
+ document.getElementById("gameKills").textContent=kills;
+ document.getElementById("enemyCount").textContent=enemies.length;
+}
+
+// =================================
+// TIROS
+// =================================
+
 function shoot(){
- if(!running||player.ammo<=0)return;
+ if(!running||ammo<=0||reloading)return;
+
+ let now=Date.now();
+ if(now-lastShot<350)return;
+ lastShot=now;
 
  let target=null;
  let best=Infinity;
 
  enemies.forEach(e=>{
   let d=Math.hypot(e.x-player.x,e.y-player.y);
-  if(d<best){best=d;target=e;}
+  if(d<best){
+   best=d;
+   target=e;
+  }
  });
 
  if(!target)return;
@@ -688,65 +828,98 @@ function shoot(){
  bullets.push({
   x:player.x,
   y:player.y,
-  vx:dx/dist*12,
-  vy:dy/dist*12
+  vx:dx/dist*13,
+  vy:dy/dist*13,
+  damage:50
  });
 
- player.ammo--;
+ ammo--;
  drawGame();
 }
 
-function moveMobile(x,y){
- if(!running)return;
- player.x+=x*22;
- player.y+=y*22;
- player.x=Math.max(15,Math.min(885,player.x));
- player.y=Math.max(15,Math.min(535,player.y));
- drawGame();
+function reload(){
+ if(!running||reloading||ammo===30)return;
+
+ reloading=true;
+
+ document.getElementById("gameMessage").textContent=
+ "Recarregando...";
+
+ setTimeout(()=>{
+  if(!running)return;
+  ammo=30;
+  reloading=false;
+  document.getElementById("gameMessage").textContent=
+  "Munição recarregada!";
+  drawGame();
+ },1200);
+}
+
+// =================================
+// CONTROLES MOBILE
+// =================================
+
+function holdMove(x,y){
+ movement={x,y};
+}
+
+function stopMove(){
+ movement={x:0,y:0};
 }
 
 document.addEventListener("keydown",e=>{
  keys[e.key.toLowerCase()]=true;
- if(e.key===" ")shoot();
+
+ if(e.code==="Space"){
+  e.preventDefault();
+  shoot();
+ }
 });
 
 document.addEventListener("keyup",e=>{
  keys[e.key.toLowerCase()]=false;
 });
 
-canvas.addEventListener("click",e=>{
- if(!running)return;
- shoot();
-});
+// =================================
+// FINAL DA PARTIDA
+// =================================
 
 function endGame(win){
+ if(!running)return;
+
  running=false;
  clearInterval(gameTimer);
+ gameTimer=null;
+
  data.games++;
+
  if(win){
   data.wins++;
   data.coins+=1000;
   data.xp+=100;
-  document.getElementById("message").textContent=
+
+  document.getElementById("gameMessage").textContent=
   "🏆 BOOYAH! Você venceu! +1000 moedas!";
  }else{
   data.coins+=100;
-  document.getElementById("message").textContent=
+  document.getElementById("gameMessage").textContent=
   "Você foi eliminado! +100 moedas.";
  }
- save();
- drawEnd();
-}
 
-function drawEnd(){
- ctx.fillStyle="rgba(0,0,0,.7)";
+ save();
+
+ ctx.fillStyle="rgba(0,0,0,.75)";
  ctx.fillRect(0,0,900,550);
+
  ctx.fillStyle="white";
  ctx.textAlign="center";
- ctx.font="40px Arial";
- ctx.fillText("PARTIDA FINALIZADA",450,240);
+ ctx.font="bold 38px Arial";
+ ctx.fillText(win?"BOOYAH!":"ELIMINADO",450,240);
+
  ctx.font="22px Arial";
  ctx.fillText("Eliminações: "+kills,450,290);
+ ctx.fillText("Partida finalizada",450,330);
+
  ctx.textAlign="left";
 }
 
@@ -754,18 +927,23 @@ function leaveGame(){
  if(running){
   running=false;
   clearInterval(gameTimer);
-  document.getElementById("message").textContent="Você saiu da partida.";
+  gameTimer=null;
  }
- showPage("lobby");
+
+ page("lobby");
 }
 
+// =================================
 // INICIALIZAÇÃO
+// =================================
 
 renderCharacters();
+renderDiamonds();
 renderSkins();
 renderWeapons();
-updateUI();
+update();
 
 </script>
+
 </body>
 </html>
