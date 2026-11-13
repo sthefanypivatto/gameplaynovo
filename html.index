@@ -1,1 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire 2.0 Classic</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#10151d;
+ color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#171f2b;
+ padding:15px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ border-bottom:2px solid #ff9d00;
+}
+.logo{font-size:23px;font-weight:bold;color:#ff9d00}
+.currency{color:#ffd43b;font-weight:bold}
+nav{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap;
+ justify-content:center;
+ background:#202b38;
+ padding:10px;
+}
+button{
+ cursor:pointer;
+ border:0;
+ border-radius:5px;
+ padding:11px;
+ font-weight:bold;
+}
+nav button{background:#344354;color:white}
+nav button:hover{background:#ff9d00;color:black}
+.page{display:none;padding:20px;max-width:1100px;margin:auto}
+.page.active{display:block}
+.card{
+ background:#202b38;
+ padding:18px;
+ border-radius:10px;
+ margin:12px 0;
+ border:1px solid #38495b;
+}
+h1,h2{color:#ffad22}
+.primary{background:#ff9d00;color:#111}
+.secondary{background:#344354;color:white}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ gap:12px;
+}
+.item{
+ background:#263646;
+ padding:15px;
+ border-radius:8px;
+ text-align:center;
+}
+.item button{width:100%;margin-top:10px}
+.character{
+ font-size:65px;
+ margin:10px;
+}
+#gameCanvas{
+ display:block;
+ width:100%;
+ max-width:900px;
+ margin:auto;
+ background:#647d48;
+ border:3px solid #ff9d00;
+ border-radius:8px;
+ touch-action:none;
+}
+#gameInfo{
+ display:flex;
+ justify-content:space-around;
+ flex-wrap:wrap;
+ padding:12px;
+ background:#202b38;
+}
+#message{
+ text-align:center;
+ color:#ffd43b;
+ min-height:25px;
+}
+.controls{
+ display:flex;
+ justify-content:center;
+ gap:15px;
+ margin-top:12px;
+ flex-wrap:wrap;
+}
+.controls button{background:#ff9d00;padding:15px 25px}
+.small{color:#aebdca;font-size:13px}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">🔥 FREE FIRE 2.0</div>
+ <div class="currency">
+ 💎 <span id="diamonds">1000</span>
+ &nbsp; 🪙 <span id="coins">5000</span>
+ </div>
+</header>
+
+<nav>
+ <button onclick="showPage('lobby')">LOBBY</button>
+ <button onclick="showPage('characters')">PERSONAGENS</button>
+ <button onclick="showPage('store')">LOJA</button>
+ <button onclick="showPage('inventory')">COFRE</button>
+ <button onclick="showPage('missions')">MISSÕES</button>
+ <button onclick="showPage('profile')">PERFIL</button>
+ <button onclick="showPage('settings')">CONFIGURAÇÕES</button>
+</nav>
+
+<!-- LOBBY -->
+
+<section id="lobby" class="page active">
+ <div class="card" style="text-align:center">
+  <h1>FREE FIRE 2.0</h1>
+  <h2>CLASSIC EDITION 2019</h2>
+  <div class="character" id="lobbyCharacter">🧑</div>
+  <h2 id="characterName">Adam</h2>
+  <p>Prepare-se para sobreviver!</p>
+  <button class="primary" onclick="startGame()">🔥 COMEÇAR PARTIDA</button>
+ </div>
+
+ <div class="grid">
+  <div class="card">
+   <h3>🏆 Modo de jogo</h3>
+   <p>Battle Royale</p>
+   <p>Sobreviva até ser o último!</p>
+  </div>
+  <div class="card">
+   <h3>🎯 Objetivo</h3>
+   <p>Elimine os adversários e sobreviva.</p>
+  </div>
+  <div class="card">
+   <h3>🎁 Recompensa</h3>
+   <p>Ganhe moedas ao vencer partidas.</p>
+  </div>
+ </div>
+</section>
+
+<!-- PERSONAGENS -->
+
+<section id="characters" class="page">
+ <h1>PERSONAGENS</h1>
+ <p>Escolha seu personagem.</p>
+ <div class="grid" id="characterList"></div>
+</section>
+
+<!-- LOJA -->
+
+<section id="store" class="page">
+ <h1>LOJA</h1>
+
+ <div class="card">
+  <h2>💎 Comprar diamantes</h2>
+  <p class="small">Diamantes de demonstração. Não são compras reais.</p>
+  <div class="grid">
+   <div class="item">
+    <h2>💎 100</h2>
+    <p>Grátis</p>
+    <button class="primary" onclick="buyDiamonds(100)">Resgatar</button>
+   </div>
+   <div class="item">
+    <h2>💎 500</h2>
+    <p>Grátis</p>
+    <button class="primary" onclick="buyDiamonds(500)">Resgatar</button>
+   </div>
+   <div class="item">
+    <h2>💎 1000</h2>
+    <p>Grátis</p>
+    <button class="primary" onclick="buyDiamonds(1000)">Resgatar</button>
+   </div>
+  </div>
+ </div>
+
+ <h2>🎭 Skins e roupas</h2>
+ <div class="grid" id="skinList"></div>
+
+ <h2>🔫 Armas</h2>
+ <div class="grid" id="weaponList"></div>
+</section>
+
+<!-- COFRE -->
+
+<section id="inventory" class="page">
+ <h1>MEU COFRE</h1>
+ <div class="card">
+  <h2>Personagem equipado</h2>
+  <div id="equippedCharacter">Adam</div>
+ </div>
+ <div class="card">
+  <h2>🎒 Itens adquiridos</h2>
+  <div id="inventoryItems">Nenhum item comprado.</div>
+ </div>
+ <div class="card">
+  <h2>🔫 Arma equipada</h2>
+  <div id="equippedWeapon">MP40</div>
+ </div>
+</section>
+
+<!-- MISSÕES -->
+
+<section id="missions" class="page">
+ <h1>MISSÕES</h1>
+ <div class="card">
+  <h3>🎯 Elimine 3 inimigos</h3>
+  <p id="missionKills">Progresso: 0/3</p>
+  <button class="primary" onclick="claimMission(0)">Resgatar recompensa</button>
+ </div>
+ <div class="card">
+  <h3>🏆 Jogue uma partida</h3>
+  <p id="missionGames">Progresso: 0/1</p>
+  <button class="primary" onclick="claimMission(1)">Resgatar recompensa</button>
+ </div>
+</section>
+
+<!-- PERFIL -->
+
+<section id="profile" class="page">
+ <h1>PERFIL DO JOGADOR</h1>
+ <div class="card">
+  <div class="character">👤</div>
+  <h2 id="profileName">Jogador</h2>
+  <p>Nível: <span id="level">1</span></p>
+  <p>Experiência: <span id="xp">0</span></p>
+  <p>Partidas: <span id="games">0</span></p>
+  <p>Eliminações: <span id="kills">0</span></p>
+  <p>Vitórias: <span id="wins">0</span></p>
+  <button class="secondary" onclick="changeName()">Alterar nome</button>
+ </div>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+
+<section id="settings" class="page">
+ <h1>CONFIGURAÇÕES</h1>
+ <div class="card">
+  <h3>Áudio</h3>
+  <label>Volume</label>
+  <input type="range" min="0" max="100" value="70">
+ </div>
+ <div class="card">
+  <h3>Gráficos</h3>
+  <select>
+   <option>Baixo</option>
+   <option selected>Médio</option>
+   <option>Alto</option>
+  </select>
+ </div>
+ <div class="card">
+  <h3>Controles</h3>
+  <p>WASD ou setas para movimentar.</p>
+  <p>Mouse para mirar e atirar.</p>
+ </div>
+</section>
+
+<!-- PARTIDA -->
+
+<section id="game" class="page">
+ <h1>🔥 BATTLE ROYALE</h1>
+ <div id="gameInfo">
+  <span>❤️ Vida: <b id="health">100</b></span>
+  <span>🔫 Munição: <b id="ammo">30</b></span>
+  <span>☠️ Eliminações: <b id="gameKills">0</b></span>
+  <span>👥 Inimigos: <b id="enemyCount">10</b></span>
+ </div>
+
+ <canvas id="gameCanvas" width="900" height="550"></canvas>
+
+ <div class="controls">
+  <button onclick="moveMobile(0,-1)">⬆️</button>
+  <button onclick="moveMobile(-1,0)">⬅️</button>
+  <button onclick="moveMobile(1,0)">➡️</button>
+  <button onclick="moveMobile(0,1)">⬇️</button>
+  <button onclick="shoot()">🔫 ATIRAR</button>
+ </div>
+
+ <p id="message">Sobreviva e elimine os adversários!</p>
+ <div style="text-align:center">
+  <button class="secondary" onclick="leaveGame()">SAIR DA PARTIDA</button>
+ </div>
+</section>
+
+<script>
+// DADOS DO JOGADOR
+
+let data=JSON.parse(localStorage.getItem("ff2data")||"null")||{
+ diamonds:1000,
+ coins:5000,
+ name:"Jogador",
+ character:"Adam",
+ weapon:"MP40",
+ inventory:[],
+ kills:0,
+ games:0,
+ wins:0,
+ xp:0,
+ claimed:[],
+ redeemed:[],
+ skins:[]
+};
+
+function save(){
+ localStorage.setItem("ff2data",JSON.stringify(data));
+ updateUI();
+}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ updateUI();
+}
+
+function updateUI(){
+ document.getElementById("diamonds").textContent=data.diamonds;
+ document.getElementById("coins").textContent=data.coins;
+ document.getElementById("profileName").textContent=data.name;
+ document.getElementById("level").textContent=Math.floor(data.xp/100)+1;
+ document.getElementById("xp").textContent=data.xp;
+ document.getElementById("games").textContent=data.games;
+ document.getElementById("kills").textContent=data.kills;
+ document.getElementById("wins").textContent=data.wins;
+ document.getElementById("characterName").textContent=data.character;
+ document.getElementById("lobbyCharacter").textContent=
+ characters.find(c=>c.name===data.character)?.emoji||"🧑";
+ document.getElementById("equippedCharacter").textContent=data.character;
+ document.getElementById("equippedWeapon").textContent=data.weapon;
+ document.getElementById("inventoryItems").textContent=
+ data.inventory.join(", ")||"Nenhum item comprado.";
+ document.getElementById("missionKills").textContent=
+ "Progresso: "+Math.min(data.kills,3)+"/3";
+ document.getElementById("missionGames").textContent=
+ "Progresso: "+Math.min(data.games,1)+"/1";
+}
+
+function changeName(){
+ let n=prompt("Digite seu nome:");
+ if(n&&n.trim()){data.name=n.trim().slice(0,20);save();}
+}
+
+// PERSONAGENS
+
+const characters=[
+ {name:"Adam",emoji:"🧑",price:0},
+ {name:"Eve",emoji:"👩",price:200},
+ {name:"Maxim",emoji:"🧔",price:300},
+ {name:"Kelly",emoji:"🏃‍♀️",price:500},
+ {name:"Andrew",emoji:"👮",price:500},
+ {name:"Moco",emoji:"👩‍💻",price:700}
+];
+
+function renderCharacters(){
+ let el=document.getElementById("characterList");
+ el.innerHTML="";
+ characters.forEach(c=>{
+  let owned=c.price===0||data.inventory.includes(c.name);
+  el.innerHTML+=`
+  <div class="item">
+   <div class="character">${c.emoji}</div>
+   <h3>${c.name}</h3>
+   <p>${c.price===0?"Grátis":c.price+" 💎"}</p>
+   <button class="primary" onclick="selectCharacter('${c.name}')">
+   ${data.character===c.name?"Selecionado":owned?"Selecionar":"Comprar"}
+   </button>
+  </div>`;
+ });
+}
+
+function selectCharacter(name){
+ let c=characters.find(x=>x.name===name);
+ if(!c)return;
+ if(c.price>0&&!data.inventory.includes(name)){
+  if(data.diamonds<c.price){alert("Diamantes insuficientes!");return;}
+  data.diamonds-=c.price;
+  data.inventory.push(name);
+ }
+ data.character=name;
+ save();
+ renderCharacters();
+}
+
+// DIAMANTES
+
+function buyDiamonds(amount){
+ data.diamonds+=amount;
+ save();
+ alert("Você recebeu "+amount+" diamantes!");
+}
+
+// LOJA DE SKINS
+
+const skins=[
+ {name:"Uniforme clássico",emoji:"👕",price:100},
+ {name:"Roupa urbana",emoji:"🧥",price:200},
+ {name:"Conjunto militar",emoji:"🥷",price:350},
+ {name:"Roupa lendária",emoji:"👑",price:500}
+];
+
+function renderSkins(){
+ let el=document.getElementById("skinList");
+ el.innerHTML="";
+ skins.forEach(s=>{
+ let owned=data.skins.includes(s.name);
+ el.innerHTML+=`
+ <div class="item">
+ <div class="character">${s.emoji}</div>
+ <h3>${s.name}</h3>
+ <p>${s.price} 💎</p>
+ <button class="primary" onclick="buySkin('${s.name}')">
+ ${owned?"Adquirida":"Comprar"}
+ </button>
+ </div>`;
+ });
+}
+
+function buySkin(name){
+ let s=skins.find(x=>x.name===name);
+ if(!s||data.skins.includes(name))return;
+ if(data.diamonds<s.price){alert("Diamantes insuficientes!");return;}
+ data.diamonds-=s.price;
+ data.skins.push(name);
+ data.inventory.push(name);
+ save();
+ renderSkins();
+ alert("Skin adquirida!");
+}
+
+// ARMAS
+
+const weapons=[
+ {name:"MP40",price:0,emoji:"🔫"},
+ {name:"AK47",price:200,emoji:"🔫"},
+ {name:"M4A1",price:250,emoji:"🔫"},
+ {name:"AWM",price:400,emoji:"🎯"},
+ {name:"M1014",price:300,emoji:"🔫"}
+];
+
+function renderWeapons(){
+ let el=document.getElementById("weaponList");
+ el.innerHTML="";
+ weapons.forEach(w=>{
+ let owned=w.price===0||data.inventory.includes(w.name);
+ el.innerHTML+=`
+ <div class="item">
+ <div class="character">${w.emoji}</div>
+ <h3>${w.name}</h3>
+ <p>${w.price===0?"Grátis":w.price+" 💎"}</p>
+ <button class="primary" onclick="buyWeapon('${w.name}')">
+ ${data.weapon===w.name?"Equipado":owned?"Equipar":"Comprar"}
+ </button>
+ </div>`;
+ });
+}
+
+function buyWeapon(name){
+ let w=weapons.find(x=>x.name===name);
+ if(!w)return;
+ if(!data.inventory.includes(name)){
+  if(data.diamonds<w.price){alert("Diamantes insuficientes!");return;}
+  data.diamonds-=w.price;
+  data.inventory.push(name);
+ }
+ data.weapon=name;
+ save();
+ renderWeapons();
+}
+
+// MISSÕES
+
+function claimMission(id){
+ if(data.claimed.includes(id)){alert("Recompensa já recebida!");return;}
+ if((id===0&&data.kills<3)||(id===1&&data.games<1)){
+  alert("Missão ainda não concluída!");
+  return;
+ }
+ data.claimed.push(id);
+ data.coins+=500;
+ data.xp+=100;
+ save();
+ alert("Você recebeu 500 moedas e 100 XP!");
+}
+
+// JOGO
+
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+
+let player={x:450,y:275,hp:100,ammo:30};
+let enemies=[];
+let bullets=[];
+let running=false;
+let kills=0;
+let keys={};
+let lastShot=0;
+let zone=250;
+let gameTimer;
+
+function startGame(){
+ showPage("game");
+ player={x:450,y:275,hp:100,ammo:30};
+ enemies=[];
+ bullets=[];
+ kills=0;
+ zone=250;
+
+ for(let i=0;i<10;i++){
+  enemies.push({
+   x:60+Math.random()*780,
+   y:60+Math.random()*430,
+   hp:100,
+   speed:0.45+Math.random()*0.5
+  });
+ }
+
+ running=true;
+ document.getElementById("message").textContent="A partida começou!";
+ clearInterval(gameTimer);
+ gameTimer=setInterval(updateGame,30);
+ drawGame();
+}
+
+function drawGame(){
+ if(!running)return;
+
+ ctx.clearRect(0,0,900,550);
+
+ // MAPA
+ ctx.fillStyle="#637d49";
+ ctx.fillRect(0,0,900,550);
+
+ // CAMINHOS
+ ctx.fillStyle="#9b906a";
+ ctx.fillRect(0,120,900,45);
+ ctx.fillRect(250,0,50,550);
+
+ // ÁRVORES
+ for(let i=0;i<20;i++){
+  let x=(i*137+50)%900;
+  let y=(i*83+40)%550;
+  ctx.fillStyle="#25472b";
+  ctx.beginPath();
+  ctx.arc(x,y,14,0,Math.PI*2);
+  ctx.fill();
+ }
+
+ // ZONA SEGURA
+ ctx.strokeStyle="#52c8ff";
+ ctx.lineWidth=4;
+ ctx.beginPath();
+ ctx.arc(450,275,zone,0,Math.PI*2);
+ ctx.stroke();
+
+ // INIMIGOS
+ enemies.forEach(e=>{
+  ctx.fillStyle="#d63232";
+  ctx.fillRect(e.x-10,e.y-10,20,20);
+  ctx.fillStyle="white";
+  ctx.font="11px Arial";
+  ctx.fillText("INIMIGO",e.x-20,e.y-16);
+ });
+
+ // TIROS
+ ctx.fillStyle="#ffed72";
+ bullets.forEach(b=>{
+  ctx.beginPath();
+  ctx.arc(b.x,b.y,4,0,Math.PI*2);
+  ctx.fill();
+ });
+
+ // JOGADOR
+ ctx.fillStyle="#2c9cff";
+ ctx.beginPath();
+ ctx.arc(player.x,player.y,13,0,Math.PI*2);
+ ctx.fill();
+
+ ctx.fillStyle="white";
+ ctx.font="14px Arial";
+ ctx.fillText("VOCÊ",player.x-17,player.y-20);
+
+ document.getElementById("health").textContent=player.hp;
+ document.getElementById("ammo").textContent=player.ammo;
+ document.getElementById("gameKills").textContent=kills;
+ document.getElementById("enemyCount").textContent=enemies.length;
+}
+
+function updateGame(){
+ if(!running)return;
+
+ let speed=4;
+
+ if(keys["w"]||keys["ArrowUp"])player.y-=speed;
+ if(keys["s"]||keys["ArrowDown"])player.y+=speed;
+ if(keys["a"]||keys["ArrowLeft"])player.x-=speed;
+ if(keys["d"]||keys["ArrowRight"])player.x+=speed;
+
+ player.x=Math.max(15,Math.min(885,player.x));
+ player.y=Math.max(15,Math.min(535,player.y));
+
+ // IA DOS INIMIGOS
+ enemies.forEach(e=>{
+  let dx=player.x-e.x;
+  let dy=player.y-e.y;
+  let dist=Math.hypot(dx,dy);
+
+  if(dist>20){
+   e.x+=(dx/dist)*e.speed;
+   e.y+=(dy/dist)*e.speed;
+  }
+
+  if(dist<23&&Math.random()<0.025){
+   player.hp-=5;
+  }
+ });
+
+ // PROJÉTEIS
+ bullets.forEach(b=>{
+  b.x+=b.vx;
+  b.y+=b.vy;
+  enemies.forEach(e=>{
+   if(Math.hypot(b.x-e.x,b.y-e.y)<18&&e.hp>0){
+    e.hp-=50;
+    b.dead=true;
+    if(e.hp<=0){
+     kills++;
+     data.kills++;
+     data.xp+=20;
+    }
+   }
+  });
+ });
+
+ bullets=bullets.filter(b=>
+  !b.dead&&b.x>=0&&b.x<=900&&b.y>=0&&b.y<=550
+ );
+
+ enemies=enemies.filter(e=>e.hp>0);
+
+ // ZONA DIMINUINDO
+ if(zone>80)zone-=0.015;
+
+ if(Math.hypot(player.x-450,player.y-275)>zone){
+  player.hp-=0.15;
+ }
+
+ if(player.hp<=0){
+  endGame(false);
+  return;
+ }
+
+ if(enemies.length===0){
+  endGame(true);
+  return;
+ }
+
+ drawGame();
+}
+
+function shoot(){
+ if(!running||player.ammo<=0)return;
+
+ let target=null;
+ let best=Infinity;
+
+ enemies.forEach(e=>{
+  let d=Math.hypot(e.x-player.x,e.y-player.y);
+  if(d<best){best=d;target=e;}
+ });
+
+ if(!target)return;
+
+ let dx=target.x-player.x;
+ let dy=target.y-player.y;
+ let dist=Math.hypot(dx,dy);
+
+ bullets.push({
+  x:player.x,
+  y:player.y,
+  vx:dx/dist*12,
+  vy:dy/dist*12
+ });
+
+ player.ammo--;
+ drawGame();
+}
+
+function moveMobile(x,y){
+ if(!running)return;
+ player.x+=x*22;
+ player.y+=y*22;
+ player.x=Math.max(15,Math.min(885,player.x));
+ player.y=Math.max(15,Math.min(535,player.y));
+ drawGame();
+}
+
+document.addEventListener("keydown",e=>{
+ keys[e.key.toLowerCase()]=true;
+ if(e.key===" ")shoot();
+});
+
+document.addEventListener("keyup",e=>{
+ keys[e.key.toLowerCase()]=false;
+});
+
+canvas.addEventListener("click",e=>{
+ if(!running)return;
+ shoot();
+});
+
+function endGame(win){
+ running=false;
+ clearInterval(gameTimer);
+ data.games++;
+ if(win){
+  data.wins++;
+  data.coins+=1000;
+  data.xp+=100;
+  document.getElementById("message").textContent=
+  "🏆 BOOYAH! Você venceu! +1000 moedas!";
+ }else{
+  data.coins+=100;
+  document.getElementById("message").textContent=
+  "Você foi eliminado! +100 moedas.";
+ }
+ save();
+ drawEnd();
+}
+
+function drawEnd(){
+ ctx.fillStyle="rgba(0,0,0,.7)";
+ ctx.fillRect(0,0,900,550);
+ ctx.fillStyle="white";
+ ctx.textAlign="center";
+ ctx.font="40px Arial";
+ ctx.fillText("PARTIDA FINALIZADA",450,240);
+ ctx.font="22px Arial";
+ ctx.fillText("Eliminações: "+kills,450,290);
+ ctx.textAlign="left";
+}
+
+function leaveGame(){
+ if(running){
+  running=false;
+  clearInterval(gameTimer);
+  document.getElementById("message").textContent="Você saiu da partida.";
+ }
+ showPage("lobby");
+}
+
+// INICIALIZAÇÃO
+
+renderCharacters();
+renderSkins();
+renderWeapons();
+updateUI();
+
+</script>
+</body>
+</html>
